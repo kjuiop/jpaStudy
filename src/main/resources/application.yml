@@ -1,0 +1,12 @@
+spring:
+  profiles:
+    active: local
+  main:
+    allow-bean-definition-overriding: true
+
+
+## log 를 통해 출력
+logging.level:
+  org.hibernate.SQL: debug
+#  org.hibernate.type: trace
+
