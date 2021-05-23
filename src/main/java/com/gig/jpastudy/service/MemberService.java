@@ -20,4 +20,6 @@ public class MemberService {
     public Member findMember(Long memberId) {
         return em.find(Member.class, memberId);
     }
+
+
 }
