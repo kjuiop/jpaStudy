@@ -1,25 +1,37 @@
 package com.gig.jpastudy.service;
 
 import com.gig.jpastudy.model.Member;
+import com.gig.jpastudy.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class MemberService {
 
-    @PersistenceContext
-    EntityManager em;
+    private final MemberRepository memberRepository;
 
-    public Long save(Member member) {
-        em.persist(member);
+    @Transactional
+    public Long join(Member member) {
+        validateDuplicateMember(member);
+        memberRepository.save(member);
         return member.getMemberId();
     }
 
-    public Member findMember(Long memberId) {
-        return em.find(Member.class, memberId);
+    private void validateDuplicateMember(Member member) {
+        List<Member> findMembers = memberRepository.findByName(member.getName());
+        if (!findMembers.isEmpty()) {
+            throw new IllegalStateException("이미 존재하는 회원입니다.");
+        }
     }
 
+    public Member findOne(Long memberId) {
+        return memberRepository.findOne(memberId);
+    }
 
 }
