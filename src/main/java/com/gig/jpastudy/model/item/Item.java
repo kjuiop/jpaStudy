@@ -1,5 +1,6 @@
 package com.gig.jpastudy.model.item;
 
+import com.gig.jpastudy.exception.NotEnoughStockException;
 import com.gig.jpastudy.model.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,6 +31,18 @@ public abstract class Item extends BaseEntity {
     public void setCategoryItem(CategoryItem categoryItem) {
         categoryItems.add(categoryItem);
         categoryItem.setItem(this);
+    }
+
+    public void addStock(int quantity) {
+        this.stockQuantity += quantity;
+    }
+
+    public void removeStock(int quantity) {
+        int restStock = this.stockQuantity - quantity;
+        if (restStock < 0) {
+            throw new NotEnoughStockException("need more stock");
+        }
+        this.stockQuantity = restStock;
     }
 
 }
