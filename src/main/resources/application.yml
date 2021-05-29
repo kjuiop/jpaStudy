@@ -3,6 +3,9 @@ spring:
     active: local
   main:
     allow-bean-definition-overriding: true
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
 
 
 ## log 를 통해 출력

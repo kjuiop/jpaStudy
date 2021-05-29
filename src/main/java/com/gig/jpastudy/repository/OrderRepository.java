@@ -82,7 +82,15 @@ public class OrderRepository {
             criteria.add(status);
         }
 
+        // 회원 이름 검색
+        if (StringUtils.hasText(orderSearchDto.getMemberName())) {
+            Predicate name = cb.like(m.<String>get("name"), "%" + orderSearchDto.getMemberName() + "%");
+            criteria.add(name);
+        }
 
-        return null;
+        cq.where(cb.and(criteria.toArray(new Predicate[criteria.size()])));
+        TypedQuery<Order> query = em.createQuery(cq).setMaxResults(1000);
+
+        return query.getResultList();
     }
 }
