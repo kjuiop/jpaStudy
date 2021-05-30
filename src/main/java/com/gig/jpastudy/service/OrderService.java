@@ -1,5 +1,6 @@
 package com.gig.jpastudy.service;
 
+import com.gig.jpastudy.dto.OrderSearchDto;
 import com.gig.jpastudy.model.Delivery;
 import com.gig.jpastudy.model.Member;
 import com.gig.jpastudy.model.Order;
@@ -12,6 +13,8 @@ import com.gig.jpastudy.types.DeliveryStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -45,4 +48,8 @@ public class OrderService {
     }
 
 
+    public List<Order> findOrders(OrderSearchDto orderSearchDto) {
+        List<Order> orders = orderRepository.findAllByStringAndJPQL(orderSearchDto);
+        return orders;
+    }
 }

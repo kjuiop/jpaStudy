@@ -40,7 +40,7 @@ public class OrderRepository {
             } else {
                 jpql += " and";
             }
-            jpql += " o.status = :status";
+            jpql += " o.orderStatus = :orderStatus";
         }
 
         // 회원 이름 검색
@@ -57,7 +57,7 @@ public class OrderRepository {
         TypedQuery<Order> query = em.createQuery(jpql, Order.class).setMaxResults(1000);
 
         if (orderSearchDto.getOrderStatus() != null) {
-            query = query.setParameter("status", orderSearchDto.getOrderStatus());
+            query = query.setParameter("orderStatus", orderSearchDto.getOrderStatus());
         }
 
         if (StringUtils.hasText(orderSearchDto.getMemberName())) {
@@ -78,7 +78,7 @@ public class OrderRepository {
 
         // 주문 상태 검색
         if (orderSearchDto.getOrderStatus() != null) {
-            Predicate status = cb.equal(o.get("status"), orderSearchDto.getOrderStatus());
+            Predicate status = cb.equal(o.get("orderStatus"), orderSearchDto.getOrderStatus());
             criteria.add(status);
         }
 
