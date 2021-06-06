@@ -1,5 +1,6 @@
 package com.gig.jpastudy.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gig.jpastudy.model.embedded.Address;
 import com.gig.jpastudy.types.DeliveryStatus;
 import lombok.Getter;
@@ -15,6 +16,7 @@ public class Delivery extends BaseEntity {
     @Column(name = "delivery_id")
     private Long deliveryId;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "delivery", fetch = FetchType.LAZY)
     private Order order;
 
