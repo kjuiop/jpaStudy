@@ -103,4 +103,14 @@ public class OrderRepository {
                         " join fetch oi.item i", Order.class)
                 .getResultList();
     }
+
+    public List<Order> findAllWithMemberDelivery() {
+        return em.createQuery(
+                "select o from Order o " +
+                        "join fetch o.member m " +
+                        "join fetch o.delivery d", Order.class
+        ).getResultList();
+    }
+    // 엔티티를 패치 조인을 사용해서 쿼리 1번에 조인
+    // 패치 조인으로 order -> member, order -> delivery 는 이미 조회된 상태이므로 지연로딩 X
 }

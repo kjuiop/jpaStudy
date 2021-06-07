@@ -1,6 +1,7 @@
 package com.gig.jpastudy.api;
 
 import com.gig.jpastudy.dto.OrderDto;
+import com.gig.jpastudy.dto.OrderLightDto;
 import com.gig.jpastudy.dto.OrderSearchDto;
 import com.gig.jpastudy.model.Order;
 import com.gig.jpastudy.repository.OrderRepository;
@@ -34,6 +35,16 @@ public class OrderSimpleApiController {
         List<Order> orders = orderRepository.findAllWithItem();
         List<OrderDto> result = orders.stream()
                 .map(o -> new OrderDto(o))
+                .collect(Collectors.toList());
+
+        return result;
+    }
+
+    @GetMapping("/api/v3/simple-orders")
+    public List<OrderLightDto> ordersV3() {
+        List<Order> orders = orderRepository.findAllWithMemberDelivery();
+        List<OrderLightDto> result = orders.stream()
+                .map(o -> new OrderLightDto(o))
                 .collect(Collectors.toList());
 
         return result;
