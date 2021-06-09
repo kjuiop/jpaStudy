@@ -1,5 +1,7 @@
 package com.gig.jpastudy.repository;
 
+import com.gig.jpastudy.dto.OrderItemDto;
+import com.gig.jpastudy.dto.OrderLightDto;
 import com.gig.jpastudy.dto.OrderSearchDto;
 import com.gig.jpastudy.model.Member;
 import com.gig.jpastudy.model.Order;
@@ -104,13 +106,60 @@ public class OrderRepository {
                 .getResultList();
     }
 
-    public List<Order> findAllWithMemberDelivery() {
+    public List<Order> findAllWithMemberDelivery(int offset, int limit) {
         return em.createQuery(
                 "select o from Order o " +
                         "join fetch o.member m " +
                         "join fetch o.delivery d", Order.class
-        ).getResultList();
+        )
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
     }
     // 엔티티를 패치 조인을 사용해서 쿼리 1번에 조인
     // 패치 조인으로 order -> member, order -> delivery 는 이미 조회된 상태이므로 지연로딩 X
+
+
+    public List<OrderLightDto> findOrderQueryDtos() {
+
+        List<OrderLightDto> result = findOrders();
+
+        result.forEach(o -> {
+            List<OrderItemDto> orderItems = findOrderItems(o.getOrderId());
+            o.setOrderItems(orderItems);
+        });
+
+        return result;
+    }
+
+    /**
+     * 1 : N 관계(컬렉션)를 제외한 나머지를 한번에 조회
+     * @return
+     */
+    private List<OrderLightDto> findOrders() {
+        return em.createQuery(
+                "select new com.gig.jpastudy.dto.OrderLightDto(o.orderId, m.name, o.orderDate, o.orderStatus, d.address) " +
+                        "from Order o " +
+                        "join o.member m " +
+                        "join o.delivery d", OrderLightDto.class)
+                .getResultList();
+    }
+
+
+    /**
+     * 1:N 관계인 orderItems 조회
+     */
+    private List<OrderItemDto> findOrderItems(Long orderId) {
+        return em.createQuery(
+                "select new com.gig.jpastudy.dto.OrderItemDto(oi.order.orderId, i.name, oi.orderPrice, oi.count) " +
+                        "from OrderItem oi " +
+                        "join oi.item i " +
+                        "where oi.order.orderId = :orderId", OrderItemDto.class
+                ).setParameter("orderId", orderId)
+                .getResultList();
+    }
+
+    /**
+     *
+     */
 }

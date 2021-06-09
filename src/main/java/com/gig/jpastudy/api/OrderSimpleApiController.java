@@ -7,6 +7,7 @@ import com.gig.jpastudy.model.Order;
 import com.gig.jpastudy.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -41,14 +42,26 @@ public class OrderSimpleApiController {
     }
 
     @GetMapping("/api/v3/simple-orders")
-    public List<OrderLightDto> ordersV3() {
-        List<Order> orders = orderRepository.findAllWithMemberDelivery();
+    public List<OrderLightDto> ordersV3(@RequestParam(value = "offset", defaultValue = "0") int offset,
+                                        @RequestParam(value = "limit", defaultValue = "100") int limit) {
+        List<Order> orders = orderRepository.findAllWithMemberDelivery(offset, limit);
         List<OrderLightDto> result = orders.stream()
                 .map(o -> new OrderLightDto(o))
                 .collect(Collectors.toList());
 
         return result;
     }
+
+
+    @GetMapping("/api/v4/simple-orders")
+    public List<OrderLightDto> orderV4() {
+        return orderRepository.findOrderQueryDtos();
+    }
+
+//    @GetMapping("/api/v5/orders")
+//    public List<OrderLightDto> orderV5() {
+//        return orderRepository.findAllByDto_optimization();
+//    }
 
 
 }
