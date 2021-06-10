@@ -1,6 +1,7 @@
 package com.gig.jpastudy.api;
 
 import com.gig.jpastudy.dto.OrderDto;
+import com.gig.jpastudy.dto.OrderFlatDto;
 import com.gig.jpastudy.dto.OrderLightDto;
 import com.gig.jpastudy.dto.OrderSearchDto;
 import com.gig.jpastudy.model.Order;
@@ -58,10 +59,17 @@ public class OrderSimpleApiController {
         return orderRepository.findOrderQueryDtos();
     }
 
-//    @GetMapping("/api/v5/orders")
-//    public List<OrderLightDto> orderV5() {
-//        return orderRepository.findAllByDto_optimization();
-//    }
+    @GetMapping("/api/v5/orders")
+    public List<OrderLightDto> orderV5() {
+        return orderRepository.findAllByDto_optimization();
+    }
+
+    @GetMapping("/api/v6/orders")
+    public List<OrderLightDto> ordersV6() {
+        List<OrderFlatDto> flats = orderRepository.findAllByDto_flat();
+
+        return null;
+    }
 
 
 }
