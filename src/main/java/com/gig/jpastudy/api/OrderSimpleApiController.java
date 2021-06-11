@@ -1,9 +1,6 @@
 package com.gig.jpastudy.api;
 
-import com.gig.jpastudy.dto.OrderDto;
-import com.gig.jpastudy.dto.OrderFlatDto;
-import com.gig.jpastudy.dto.OrderLightDto;
-import com.gig.jpastudy.dto.OrderSearchDto;
+import com.gig.jpastudy.dto.*;
 import com.gig.jpastudy.model.Order;
 import com.gig.jpastudy.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.mapping;
 
 @RestController
 @RequiredArgsConstructor
@@ -69,6 +69,16 @@ public class OrderSimpleApiController {
         List<OrderFlatDto> flats = orderRepository.findAllByDto_flat();
 
         return null;
+//        return flats.stream()
+//                .collect(groupingBy(o -> new OrderLightDto(o.getOrderId(),
+//                                o.getName(), o.getOrderDate(), o.getOrderStatus(), o.getAddress()),
+//                        mapping(o -> new OrderItemQueryDto(o.getOrderId(),
+//                                o.getItemName(), o.getOrderPrice(), o.getCount()), toList())
+//                )).entrySet().stream()
+//                .map(e -> new OrderLightDto(e.getKey().getOrderId(),
+//                        e.getKey().getName(), e.getKey().getOrderDate(), e.getKey().getOrderStatus(),
+//                        e.getKey().getAddress(), e.getValue()))
+//                .collect(toList());
     }
 
 
