@@ -42,7 +42,7 @@ public class OrderSimpleApiController {
         return result;
     }
 
-    @GetMapping("/api/v3/simple-orders")
+    @GetMapping("/api/v3/orders")
     public List<OrderLightDto> ordersV3(@RequestParam(value = "offset", defaultValue = "0") int offset,
                                         @RequestParam(value = "limit", defaultValue = "100") int limit) {
         List<Order> orders = orderRepository.findAllWithMemberDelivery(offset, limit);
@@ -54,7 +54,7 @@ public class OrderSimpleApiController {
     }
 
 
-    @GetMapping("/api/v4/simple-orders")
+    @GetMapping("/api/v4/orders")
     public List<OrderLightDto> orderV4() {
         return orderRepository.findOrderQueryDtos();
     }
