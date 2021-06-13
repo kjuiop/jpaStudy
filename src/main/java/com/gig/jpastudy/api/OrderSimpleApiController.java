@@ -72,7 +72,7 @@ public class OrderSimpleApiController {
 //        return flats.stream()
 //                .collect(groupingBy(o -> new OrderLightDto(o.getOrderId(),
 //                                o.getName(), o.getOrderDate(), o.getOrderStatus(), o.getAddress()),
-//                        mapping(o -> new OrderItemQueryDto(o.getOrderId(),
+//                        mapping(o -> new OrderItemDto(o.getOrderId(),
 //                                o.getItemName(), o.getOrderPrice(), o.getCount()), toList())
 //                )).entrySet().stream()
 //                .map(e -> new OrderLightDto(e.getKey().getOrderId(),

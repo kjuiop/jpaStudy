@@ -29,15 +29,15 @@ public class OrderFlatDto {
 
     private int count;
 
-    public OrderFlatDto(Long orderId, String name, LocalDateTime orderDate, OrderStatus orderStatus,
-                        Address address, String itemName, int orderPrice, int count) {
+    public OrderFlatDto(Long orderId, String name, LocalDateTime orderDate,
+                        OrderStatus orderStatus, Address address, String itemName, int orderPrice, int
+                                count) {
         this.orderId = orderId;
         this.name = name;
         this.orderDate = orderDate;
         this.orderStatus = orderStatus;
         this.address = address;
         this.itemName = itemName;
-        this.orderPrice = orderPrice;
-        this.count = count;
+        this.orderPrice = orderPrice; this.count = count;
     }
 }
